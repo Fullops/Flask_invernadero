@@ -19,6 +19,9 @@ RUN wget -O /app/models/ensambleA_methodA_BBOX_output.pth "https://github.com/Fu
 # Copia el resto de la aplicación al contenedor
 COPY . .
 
+# Instala las dependencias de OpenCV para evitar errores como "libGL.so.1: cannot open shared object file"
+RUN apt-get update && apt-get install -y libgl1-mesa-glx libxext6 libsm6
+
 # Expone el puerto en el que la aplicación Flask se ejecutará
 EXPOSE 5000
 
