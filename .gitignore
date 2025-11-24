@@ -1,0 +1,12 @@
+env/
+.github
+
+__pycache__/
+app/__pycache__
+
+env
+.pytest_cache/
+.python-version
+
+/.env
+.env
