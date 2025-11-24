@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Blueprint
 import base64
 from io import BytesIO
 from PIL import Image
@@ -13,6 +13,7 @@ from app.segmentation import load_segmentation_model, predict_segmentation
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 app = Flask(__name__)
+invernadero_bp = Blueprint('invernadero', __name__, url_prefix='/invernadero')
 
 
 # =============================
@@ -28,7 +29,7 @@ print("[OK] Modelos cargados correctamente.")
 # =============================
 
 
-@app.route("/predict", methods=["POST"])
+@invernadero_bp.route("/predict", methods=["POST"])
 def predict():
     try:
         data = request.get_json()
@@ -56,6 +57,8 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+app.register_blueprint(invernadero_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
